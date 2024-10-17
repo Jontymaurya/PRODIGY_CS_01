@@ -1,0 +1,40 @@
+def caesar_cipher_encrypt(text, shift):
+    encrypted_text = ""
+    shift = shift % 26  
+    for char in text:
+        if char.isalpha():  
+            shift_base = 65 if char.isupper() else 97 
+            encrypted_text += chr((ord(char) - shift_base + shift) % 26 + shift_base)
+        else:
+            encrypted_text += char  
+    return encrypted_text
+
+def caesar_cipher_decrypt(text, shift):
+    return caesar_cipher_encrypt(text, -shift)  
+
+def main():
+    while True:
+        choice = input("Type 'encrypt' to encrypt, 'decrypt' to decrypt, or 'exit' to quit: ").lower()
+
+        if choice == 'exit':
+            print("Exiting the program. Goodbye!")
+            break
+        elif choice in ['encrypt', 'decrypt']:
+            text = input("Enter your message: ")
+            try:
+                shift = int(input("Enter the shift value (integer): "))
+            except ValueError:
+                print("Invalid input. Please enter a valid integer for the shift.")
+                continue  # Go back to the start of the loop
+
+            if choice == 'encrypt':
+                encrypted = caesar_cipher_encrypt(text, shift)
+                print(f"Encrypted message: {encrypted}")
+            elif choice == 'decrypt':
+                decrypted = caesar_cipher_decrypt(text, shift)
+                print(f"Decrypted message: {decrypted}")
+        else:
+            print("Invalid option. Please type 'encrypt', 'decrypt', or 'exit'.")
+
+if __name__ == "__main__":
+    main()
